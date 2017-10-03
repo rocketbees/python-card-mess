@@ -1,0 +1,643 @@
+import pygame, sys
+from pygame.locals import *
+import random
+from carddata import *
+
+pygame.init()
+
+white = (255, 255, 255)
+gray = (195, 195, 195)
+transgray = (195, 195, 195, 0.5)
+black = (0, 0, 0)
+green = (0, 255, 0)
+blue = (0, 0, 128)
+red = (255, 0, 0)
+offWhite = (255, 240, 240)
+
+DISPLAY = pygame.display.set_mode((1600, 950))
+DISPLAY.fill(white)
+
+galacticImg1 = pygame.image.load('celestial1.jpg')
+galacticImg2 = pygame.image.load('celestial2.jpg')
+galacticImg3 = pygame.image.load('celestial3.jpg')
+galacticImg4 = pygame.image.load('celestial4.jpg')
+galacticImg5 = pygame.image.load('celestial5.jpg')
+galacticImg6 = pygame.image.load('celestial6.jpg')
+galacticImg7 = pygame.image.load('celestial7.jpg')
+galacticImg8 = pygame.image.load('celestial8.jpg')
+galacticImg9 = pygame.image.load('celestial9.jpg')
+galacticImg10 = pygame.image.load('celestial10.jpg')
+galacticImg11 = pygame.image.load('celestial11.jpg')
+galacticImg12 = pygame.image.load('celestial12.jpg')
+galacticImg13 = pygame.image.load('celestial13.jpg')
+
+galacticImgList = [galacticImg1, galacticImg2, galacticImg3, galacticImg4, galacticImg5, galacticImg6, galacticImg7, galacticImg8, galacticImg9, galacticImg10, galacticImg11, galacticImg12]
+
+galacticImg = random.choice(galacticImgList)
+
+place1 = {'location' : place1Rect,
+          'collision' : innerPlace1Rect,
+          'card' : None,
+          'image' : None,
+          'rectangle' : place1DrawRect,
+          'left' : None,
+          'right' : None,
+          'meaning' : 'pros'} 
+
+place2 = {'location' : place2Rect,
+          'collision' : innerPlace2Rect,
+          'card' : None,
+          'image' : None,
+          'rectangle' : place2DrawRect,
+          'left' : None,
+          'right' : None,
+          'meaning' : 'cons'}
+
+place3 = {'location' : place3Rect,
+          'collision' : innerPlace3Rect,
+          'card' : None,
+          'image' : None,
+          'rectangle' : place3DrawRect,
+          'left' : None,
+          'right' : None,
+          'meaning' : 'question'}
+
+place4 = {'location' : place4Rect,
+          'collision' : innerPlace4Rect,
+          'card' : None,
+          'image' : None,
+          'rectangle' : place4DrawRect,
+          'left' : None,
+          'right' : None,
+          'meaning' : 'answer'}
+
+
+#------------------------------------------------------
+
+handPos1 = {'location' : hand1Rect,
+          'collision' : innerHand1Rect,
+          'card' : None,
+          'rectangle' : hand1DrawRect}
+
+handPos2 = {'location' : hand2Rect,
+          'collision' : innerHand2Rect,
+          'card' : None,
+          'rectangle' : hand2DrawRect}
+
+handPos3 = {'location' : hand3Rect,
+          'collision' : innerHand3Rect,
+          'card' : None,
+          'rectangle' : hand3DrawRect}
+
+handPos4 = {'location' : hand4Rect,
+          'collision' : innerHand4Rect,
+          'card' : None,
+          'rectangle' : hand4DrawRect}
+
+#-------------------------------------------------------------------
+
+card1 = {'card' : None,
+         'image' : None,
+         'bound' : None}
+
+card2 = {'card' : None,
+         'image' : None,
+         'bound' : None}
+
+card3 = {'card' : None,
+         'image' : None,
+         'bound' : None}
+
+card4 = {'card' : None,
+         'image' : None,
+         'bound' : None}
+
+def keepTrackOfRelationship():
+    pass
+
+def leftRight():
+    handPos1['left'] = None
+    handPos1['right'] = handPos2
+    handPos2['left'] = handPos1
+    handPos2['right'] = handPos3
+    handPos3['left'] = handPos2
+    handPos3['right'] = handPos4
+    handPos4['left'] = handPos3
+    handPos4['right'] = None
+
+    print 'While in the hand, the card to the right of', handPos1['card']['keyword'], 'is', handPos1['right']['card']['keyword']
+    #print 'The card to the left of', handPos1['card']['keyword'], 'is', handPos1['left']['card']['keyword']
+
+
+def leftRightPlaces1():
+    
+    place1['left'] = None
+    if place2['card'] != None:
+        place1['right'] = place2['card']
+    if place1['card'] != None:
+        place2['left'] = place1['card']
+    if place3['card'] != None:
+        place2['right'] = place3['card']
+    if place2['card'] != None:
+        place3['left'] = place2['card']
+    if place4['card'] != None:
+        place3['right'] = place4['card']
+    if place3['card'] != None:
+        place4['left'] = place3['card']
+    place4['right'] = None
+
+    if place1['card'] != None and place1['right'] != None:
+        print 'The card to the right of', place1['card'], 'is', place1['right']['keyword']
+        print 'There will never be a card to the left of', place1['card']['keyword']
+        
+    if place2['card'] != None and place2['left'] != None and place2['right'] != None:
+        print 'The card to the left of', place2['card']['keyword'], 'is', place2['left']['keyword']
+        print 'The card to the right of', place2['card']['keyword'], 'is', place2['right']['keyword']
+
+    if place3['card'] != None and place3['left'] != None and place3['right'] != None:
+        print 'The card to the left of', place3['card']['keyword'], 'is', place3['left']['keyword']
+        print 'The card to the right of', place3['card']['keyword'], 'is', place3['right']['keyword']
+
+    if place4['card'] != None and place4['left'] != None:
+        print 'The card to the left of', place4['card']['keyword'], 'is:', place4['left']['keyword']
+
+
+def relationshipCounter():
+    pass
+    
+def assignCard():
+    
+    card1['card'] = handPos1['card']
+    card1['image'] = handPos1['image']
+
+    card2['card'] = handPos2['card']
+    card2['image'] = handPos2['image']
+
+    card3['card'] = handPos3['card']
+    card3['image'] = handPos3['image']
+    
+    card4['card'] = handPos4['card']
+    card4['image'] = handPos4['image']
+    
+    if card1['image'] != None:
+        card1['bound'] = handPos1['location']
+        
+    if card2['image'] != None:
+        card2['bound'] = handPos2['location']
+        
+    if card3['image'] != None:
+        card3['bound'] = handPos3['location']     
+
+    if card4['image'] != None:
+        card4['bound'] = handPos4['location']
+
+    print 'is assignCard working?'
+    print 'card in hand1:', handPos1['card']['keyword']
+    print 'card in hand2:', handPos2['card']['keyword']
+    print 'card in hand3:', handPos3['card']['keyword']
+    print 'card in hand4:', handPos4['card']['keyword']
+    leftRight()
+
+def populateHand():
+
+#weirdly, when you 'refresh' your hand, you don't really, bc as soon as you draw, it changes every card
+#back to the original draw. I can probably fix that, but it doesn't seem necessary at the moment. 
+    
+    allCards = allCardsToCopy
+    
+    handPos1['card'] = random.choice(allCards)
+    handPos1['image'] = handPos1['card']['image']
+    DISPLAY.blit(handPos1['image'], handPos1['location'])
+
+    allCards.remove(handPos1['card'])
+
+    handPos2['card'] = random.choice(allCards)
+    handPos2['image'] = handPos2['card']['image']
+    DISPLAY.blit(handPos2['image'], handPos2['location'])
+
+    allCards.remove(handPos2['card'])
+
+    handPos3['card'] = random.choice(allCards)
+    handPos3['image'] = handPos3['card']['image']
+    DISPLAY.blit(handPos3['image'], handPos3['location'])
+
+    allCards.remove(handPos3['card'])
+
+    handPos4['card'] = random.choice(allCards)    
+    handPos4['image'] = handPos4['card']['image']
+    DISPLAY.blit(handPos4['image'], handPos4['location'])
+
+    allCards.remove(handPos4['card'])
+
+        
+def moveCard(mousePos):
+    cardSelected = None
+
+    if card1['bound'].collidepoint(mousePos):
+        cardSelected = card1
+        #print 'you are selecting card 1! That\'s the', cardSelected['card']['keyword'], 'card.'
+        
+    if card2['bound'].collidepoint(mousePos):
+        cardSelected = card2
+        #print 'you are selecting card 2! That\'s the', cardSelected['card']['keyword'], 'card.'
+
+    if card3['bound'].collidepoint(mousePos):
+        cardSelected = card3
+        #print 'you are selecting card 3! That\'s the', cardSelected['card']['keyword'], 'card.'
+
+    if card4['bound'].collidepoint(mousePos):
+        cardSelected = card4
+        #print 'you are selecting card 3! That\'s the', cardSelected['card']['keyword'], 'card.'
+    
+    return cardSelected
+
+        
+
+def drawRectangles():
+    pygame.draw.rect(DISPLAY, green, place1['location'], 1)
+    pygame.draw.rect(DISPLAY, green, place2['location'], 1)
+    pygame.draw.rect(DISPLAY, green, place3['location'], 1)
+    pygame.draw.rect(DISPLAY, green, place4['location'], 1)
+
+    pygame.draw.rect(DISPLAY, blue, handPos1['rectangle'], 1)
+    pygame.draw.rect(DISPLAY, blue, handPos2['rectangle'], 1)
+    pygame.draw.rect(DISPLAY, blue, handPos3['rectangle'], 1)
+    pygame.draw.rect(DISPLAY, blue, handPos4['rectangle'], 1)
+
+    
+def drawCollisionRects():
+    pygame.draw.rect(DISPLAY, blue, place1['collision'], 1)
+    pygame.draw.rect(DISPLAY, blue, place2['collision'], 1)
+    pygame.draw.rect(DISPLAY, blue, place3['collision'], 1)
+    pygame.draw.rect(DISPLAY, blue, place4['collision'], 1)
+    
+    pygame.draw.rect(DISPLAY, blue, handPos1['collision'], 1)
+    pygame.draw.rect(DISPLAY, blue, handPos2['collision'], 1)
+    pygame.draw.rect(DISPLAY, blue, handPos3['collision'], 1)
+    pygame.draw.rect(DISPLAY, blue, handPos4['collision'], 1)
+
+
+
+listOfPlaces = [place1, place2, place3, place4]
+
+
+
+#TO DO after successful trials: abstract random card drawing from image and other data transfering
+            
+        
+#if card1['bound'].colliderect()
+
+def checkInnerCollision1(cardSelected):
+
+    if cardSelected['bound'].colliderect(place1['collision']):
+        cardSelected['bound'] = place1['rectangle']
+        place1['rectangle'] = pygame.Rect((50, 50), cardSize)
+        
+    elif cardSelected['bound'].colliderect(place2['collision']):
+        cardSelected['bound'] = place2['rectangle']
+        place2['rectangle'] = pygame.Rect((300, 50), cardSize)
+        
+    elif cardSelected['bound'].colliderect(place3['collision']):
+        cardSelected['bound'] = place3['rectangle']
+        place3['rectangle'] = pygame.Rect((550, 50), cardSize)
+        
+    elif cardSelected['bound'].colliderect(place4['collision']):
+        cardSelected['bound'] = place4['rectangle']
+        place1['rectangle'] = pygame.Rect((800, 50), cardSize)
+
+   
+
+def moveData(cardSelected):
+    
+    if cardSelected['bound'].colliderect(place1['collision']):
+        place1['card'] = cardSelected['card']
+        #print 'card in place 1:', place1['card']
+        
+    if cardSelected['bound'].colliderect(place2['collision']):
+        place2['card'] = cardSelected['card']
+        #print 'card in place 2:', place2['card']
+
+    if cardSelected['bound'].colliderect(place3['collision']):
+        place3['card'] = cardSelected['card']
+        #print 'card in place 3:', place3['card']
+
+    if cardSelected['bound'].colliderect(place4['collision']):
+        place4['card'] = cardSelected['card']
+        #print 'card in place 4:', place4['card']        
+
+
+def checkForEmpty():
+    isFull = False
+    
+    if place1['card'] != None and place2['card'] != None and place3['card'] != None and place4['card'] != None:
+        print 'All full! Ready to evaluate. :)'
+        inConclusion()
+        isEmpty = True
+        
+    else:
+        print 'Not ready yet, put more cards in!'
+        
+        if place1['card'] != None:
+            print 'Card in place 1:', place1['card']['keyword']
+        else:
+            print 'Card in place 1:', place1['card']
+
+        if place2['card']  != None:    
+            print 'Card in place 2:', place2['card']['keyword']
+        else:
+            print 'Card in place 2:', place2['card']
+        
+        if place3['card']  != None:
+            print 'Card in place 3:', place3['card']['keyword']
+        else:
+            print 'Card in place 3:', place3['card']
+            
+        if place4['card']  != None:    
+            print 'Card in place 4:', place4['card']['keyword']
+        else:
+            print 'Card in place 4:', place4['card']        
+
+    return isFull
+    
+def drawAllCards():
+    
+    DISPLAY.fill(white)
+    DISPLAY.blit(card1['image'], card1['bound'])
+    DISPLAY.blit(card2['image'], card2['bound'])
+    DISPLAY.blit(card3['image'], card3['bound'])
+    DISPLAY.blit(card4['image'], card4['bound'])
+    
+
+def moveImage(card, relX, relY):
+    
+    card['bound'].x += relX
+    card['bound'].y += relY
+    DISPLAY.fill(white)   
+    drawAllCards()
+    drawRectangles()
+
+def oneCardAtATime(cardSelected):
+    if place1['card'] != None and cardSelected['bound'].colliderect(place1['collision']):
+        cardSelected['bound'] = [(place1['location'].x - 10), (place1['location'].y - 10)]
+
+def randomSituation():
+
+    situation = ["The president's daughter's been kidnapped! It's up to us!",
+                "City morale's pretty low.",
+                 "Local villains are feeling kinda restless.",
+                 "Local heros are feeling kinda restless.",
+                 "Out of town villains have been trying to stake a claim on things in town, and it's pissing everyone off. Local heroes and villains alike.",
+                 "Out of town heroes have been taking care of local villains, and that's certainly pissing people off.",
+             ]
+    
+    randomSit = random.choice(situation)
+    #to gain or lose
+    situationSampleDict = {'financial' : 50, #points on the line for each particular situation. this method will obviously require a lot of hand configuring BUT HEY what's game making all about, y'know?
+                           'political' : 10,
+                           'love' : 25, #love life of the whole city lol
+                           'popular opinion' : 40,
+                           'villain unrest' : 10,
+                           'hero unrest' : 20,
+                           'civil unrest' : 15
+                           
+        } 
+
+    return randomSit
+    
+randomSituation = randomSituation()
+print randomSituation #uh so it's working how I want it, but not how I expect. like where is the key in this circumstance? is it bc it's an int?
+scenario1Render = myfont.render(randomSituation, 1, (black))
+
+    
+def inwardSituations():
+    sampleSituationDict = {'luck' : 10,
+                           'love' : 10,
+                           'optimism' : 20
+        }
+    return sampleSituationDict
+
+
+class TownCity:
+    financialSituation = 50
+    
+
+populateHand()
+assignCard()
+
+LeftButton = 0
+
+
+#ON THIS EPISODE OF 'can I trick the program into being more time efficient?'
+
+def checkPlace1():
+    somethingThere = False
+    card1Hit = False
+    card2Hit = False
+    card3Hit = False
+    card4Hit = False
+    
+    if place1['collision'].colliderect(card1['bound']):
+        card1Hit = True
+        
+    if place1['collision'].colliderect(card2['bound']):
+        card2Hit = True
+
+    if place1['collision'].colliderect(card3['bound']):
+        card3Hit = True
+
+    if place1['collision'].colliderect(card4['bound']):
+        card4Hit = True
+        
+    if card1Hit == True or card2Hit == True or card3Hit == True or card4Hit == True:
+        somethingThere = True
+    else:
+        place1['card'] = None
+
+def checkPlace2():
+    somethingThere = False
+    card1Hit = False
+    card2Hit = False
+    card3Hit = False
+    card4Hit = False
+    
+    if place2['collision'].colliderect(card1['bound']):
+        card1Hit = True
+        
+    if place2['collision'].colliderect(card2['bound']):
+        card2Hit = True
+
+    if place2['collision'].colliderect(card3['bound']):
+        card3Hit = True
+
+    if place2['collision'].colliderect(card4['bound']):
+        card4Hit = True
+
+    if card1Hit == True or card2Hit == True or card3Hit == True or card4Hit == True:
+        somethingThere = True
+    else:
+        place2['card'] = None
+
+
+def checkPlace3():
+    somethingThere = False
+    card1Hit = False
+    card2Hit = False
+    card3Hit = False
+    card4Hit = False
+    
+    if place3['collision'].colliderect(card1['bound']):
+        card1Hit = True
+        
+    if place3['collision'].colliderect(card2['bound']):
+        card2Hit = True
+
+    if place3['collision'].colliderect(card3['bound']):
+        card3Hit = True
+
+    if place3['collision'].colliderect(card4['bound']):
+        card4Hit = True
+
+    if card1Hit == True or card2Hit == True or card3Hit == True or card4Hit == True:
+        somethingThere = True
+    else:
+        place3['card'] = None
+
+
+def checkPlace4():
+    somethingThere = False
+    card1Hit = False
+    card2Hit = False
+    card3Hit = False
+    card4Hit = False
+    
+    if place4['collision'].colliderect(card1['bound']):
+        card1Hit = True
+        
+    if place4['collision'].colliderect(card2['bound']):
+        card2Hit = True
+
+    if place4['collision'].colliderect(card3['bound']):
+        card3Hit = True
+
+    if place4['collision'].colliderect(card4['bound']):
+        card4Hit = True
+
+    if card1Hit == True or card2Hit == True or card3Hit == True or card4Hit == True:
+        somethingThere = True   #I may or may not need this to return, but at the moment it is unused. but just in case. 
+        #for the sake of one card at a timing... as in, a card can only go in if the place is empty, otherwise
+        #shoot it back either to it's place in the hand or like idk a little bit to the left/right/whatevs
+    else:
+        place4['card'] = None
+
+
+def inConclusion(): #throw this after everything filled in lieu of an actual button. you can add that later.
+    chemistry = random.randint(0, 99)
+    if chemistry > 50:
+        print 'in this instance, the interaction between ', place1['card']['keyword'], 'and', place2['card']['keyword'], 'resulted in some meaningful quiet time together. Hueheue.'
+    else:
+        print 'Eh, they were a bit busy working to work on their meaninful connection. Better luck next time, matchmaker. '
+    print 'The', place1['card']['keyword'], 'worked valiantly along side of the', place1['right']['keyword']
+    print 'The', place1['card']['keyword'], '\'s hope was bolstered by', place1['right']['keyword'], '\'s enthusiasm.'
+    print place1['card']['keyword'], '\'s hope:', place1['card']['hope']
+    print place2['card']['keyword'], '\'s enthusiasm:', place2['card']['enthusiasm']
+    calculated = place1['card']['hope'] * place2['card']['enthusiasm']
+    print 'calculated:', calculated
+
+    text1 = ('The', place1['card']['keyword'], 'card took the mantle (took on the issue of etc) of the', place1['meaning'], 'issue')
+    text = str(text1)
+    outcomeRender = tinyfont.render(text, 1, (red))
+    outcomeRect = pygame.Rect(400, 200, 300, 300)
+    pygame.draw.rect(DISPLAY, transgray, outcomeRect, 0)
+    DISPLAY.blit(outcomeRender, (500, 300))
+
+#[queenOfCoinsCard, fiveSwordsCard, empressCard, deathCard, foolCard, magicianCard, hermitCard, towerCard]
+
+
+def relationshipCounter(card, relationalCard): 
+    #deathCard['relationships'] = {foolCard : 0,
+    #                             magicianCard : 0}
+
+    #relationships = { {foolCard : magicianCard} : 0 }
+    #relationships[(foolCard['keyword'],magicianCard['keyword']) ]
+
+    foolCard['relationships'] = {queenOfCoinsCard['keyword'] : 0,
+                                 fiveSwordsCard['keyword'] : 0,
+                                 deathCard['keyword'] : 0,
+                                 magicianCard['keyword'] : 0}
+
+    print "card['relationships'][relationalCard] before", card['relationships'][relationalCard]
+    valBefore = card['relationships'][relationalCard]
+    print 'val before:', valBefore
+    valAfter = valBefore + 5
+    print 'val after:', valAfter
+    card['relationships'][relationalCard] = valAfter
+    print "card['relationships'][relationalCard] after", card['relationships'][relationalCard]
+
+
+relationshipCounter(foolCard, 'death')
+
+                    
+#-----------------------------------------------------------------------------
+#-------------------------------Main Loop-------------------------------------
+#-----------------------------------------------------------------------------
+
+def testWhile():
+    while True:
+        mousePos = pygame.mouse.get_pos()
+        mouseClicked = False
+        drawRectangles()
+        DISPLAY.blit(scenario1Render, (300, 450))
+        DISPLAY.blit(galacticImg, (1100, 200))
+        #DISPLAY.fill(white)
+        outcomeRect = pygame.Rect(1180, 310, 300, 300)
+        pygame.draw.rect(DISPLAY, gray, outcomeRect, 0)
+        
+        
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+
+            elif event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
+                #elif event.key == K_r:
+                #    populateHand()
+                    
+                #checkInnerCollision1()
+                
+                
+            elif event.type == MOUSEMOTION:
+                
+                if event.buttons[LeftButton]:
+                    
+                    cardSelected = moveCard(mousePos)
+                    rel = event.rel
+                    if cardSelected != None:
+                        drawAllCards()
+                        moveImage(cardSelected, rel[0], rel[1])
+
+            elif event.type == MOUSEBUTTONUP:
+                mouseClicked = True
+                cardSelected = moveCard(mousePos)
+                if cardSelected != None:
+                    moveData(cardSelected)
+                    checkInnerCollision1(cardSelected)
+                    drawAllCards()
+                    drawCollisionRects()
+                    #oneCardAtATime(cardSelected) #not ready yet lol
+                    
+                    leftRightPlaces1()
+                    checkPlace1()
+                    checkPlace2()
+                    checkPlace3()
+                    checkPlace4()
+                    isEmpty = checkForEmpty()
+
+                        
+                
+        pygame.display.update()
+
+        
+testWhile()
