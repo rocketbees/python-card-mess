@@ -1,0 +1,277 @@
+import pygame, sys
+from pygame.locals import *
+import random
+
+
+pygame.init()
+
+white = (255, 255, 255)
+black = (0, 0, 0)
+green = (0, 255, 0)
+blue = (0, 0, 128)
+red = (255, 0, 0)
+offWhite = (255, 240, 240)
+
+DISPLAY = pygame.display.set_mode((1100, 950))
+DISPLAY.fill(white)
+
+
+loversImg = pygame.image.load("6.jpg")
+chariotImg = pygame.image.load("7.jpg")
+strengthImg = pygame.image.load("8.jpg")
+hermitImg = pygame.image.load("9.jpg")
+fiveSwordsImg = pygame.transform.scale(pygame.image.load("pics/5swords.jpg"), (200, 350))
+queenCoinsImg = pygame.transform.scale(pygame.image.load("pics/queenofcoins.jpg"), (200, 350))
+deathImg = pygame.transform.scale(pygame.image.load("pics/death.jpg"), (200, 350))
+empressImg = pygame.transform.scale(pygame.image.load("pics/empress.jpg"), (200, 350))
+foolImg = pygame.transform.scale(pygame.image.load("pics/fool.jpg"), (200, 350))
+magicianImg = pygame.transform.scale(pygame.image.load("pics/magician.jpg"), (200, 350))
+hermitImg = pygame.transform.scale(pygame.image.load("pics/hermit.jpg"), (200, 350))
+towerImg = pygame.transform.scale(pygame.image.load("pics/tower.jpg"), (200, 350))
+
+twoCoinsImg = pygame.transform.scale(pygame.image.load("pics/2coins.jpg"), (200, 350))
+twoCupsImg = pygame.transform.scale(pygame.image.load("pics/2cups.jpg"), (200, 350))
+twoSwordsImg = pygame.transform.scale(pygame.image.load("pics/2swords.jpg"), (200, 350))
+threeCoinsImg = pygame.transform.scale(pygame.image.load("pics/3coins.jpg"), (200, 350))
+threeCupsImg = pygame.transform.scale(pygame.image.load("pics/3cups.jpg"), (200, 350))
+threeStavesImg = pygame.transform.scale(pygame.image.load("pics/3staves.jpg"), (200, 350))
+threeSwordsImg = pygame.transform.scale(pygame.image.load("pics/3swords.jpg"), (200, 350))
+fourCoinsImg = pygame.transform.scale(pygame.image.load("pics/4coins.jpg"), (200, 350))
+fourCupsImg = pygame.transform.scale(pygame.image.load("pics/4cups.jpg"), (200, 350))
+fourStavesImg = pygame.transform.scale(pygame.image.load("pics/4staves.jpg"), (200, 350))
+fourSwordsImg = pygame.transform.scale(pygame.image.load("pics/4swords.jpg"), (200, 350))
+fiveCoinsImg = pygame.transform.scale(pygame.image.load("pics/5coins.jpg"), (200, 350))
+fiveCupsImg = pygame.transform.scale(pygame.image.load("pics/5cups.jpg"), (200, 350))
+fiveStavesImg = pygame.transform.scale(pygame.image.load("pics/5staves.jpg"), (200, 350))
+fiveSwordsImg = pygame.transform.scale(pygame.image.load("pics/5swords.jpg"), (200, 350))
+
+
+
+
+myfont = pygame.font.SysFont("monospace", 25)
+tinyfont = pygame.font.SysFont("monospace", 15)
+prompt1 = "What will you tell the oracle?"
+prompt2 = "How will you guide the oracle?"
+
+badCombo1 = "Message unclear."
+badCombo2 = "Message misinterpreted."
+
+renderPrompt1 = myfont.render(prompt1, 1, (black))
+
+
+
+cardSize = (200, 350)
+innerRectSize = (50, 50)
+
+place1Rect = pygame.Rect((50, 50), cardSize)
+place2Rect = pygame.Rect((300, 50), cardSize)
+place3Rect = pygame.Rect((550, 50), cardSize)
+place4Rect = pygame.Rect((800, 50), cardSize)
+
+place1DrawRect = pygame.Rect((50, 50), cardSize)
+place2DrawRect = pygame.Rect((300, 50), cardSize)
+place3DrawRect = pygame.Rect((550, 50), cardSize)
+place4DrawRect = pygame.Rect((800, 50), cardSize)
+
+innerPlace1Rect = pygame.Rect((100, 200), innerRectSize)
+innerPlace2Rect = pygame.Rect((350, 200), innerRectSize)
+innerPlace3Rect = pygame.Rect((600, 200), innerRectSize)
+innerPlace4Rect = pygame.Rect((850, 200), innerRectSize)
+
+hand1DrawRect = pygame.Rect((50, 550), cardSize)
+hand2DrawRect = pygame.Rect((300, 550), cardSize)
+hand3DrawRect = pygame.Rect((550, 550), cardSize)
+hand4DrawRect = pygame.Rect((800, 550), cardSize)
+
+hand1Rect = pygame.Rect((50, 550), cardSize)
+hand2Rect = pygame.Rect((300, 550), cardSize)
+hand3Rect = pygame.Rect((550, 550), cardSize)
+hand4Rect = pygame.Rect((800, 550), cardSize)
+
+innerHand1Rect = pygame.Rect((100, 700), innerRectSize)
+innerHand2Rect = pygame.Rect((350, 700), innerRectSize)
+innerHand3Rect = pygame.Rect((600, 700), innerRectSize)
+innerHand4Rect = pygame.Rect((850, 700), innerRectSize)
+
+#-------------------------------------------------------------
+
+loversCard = {'image' : loversImg,
+             'knowledge' : 5,
+             'hope' : 10,
+             'enthusiasm' : 15,
+             'keyword' : 'lovers'}
+
+empressCard = {'image' : empressImg,
+             'knowledge' : 5,
+             'hope' : 10,
+             'enthusiasm' : 15,
+             'keyword' : 'empress'}
+
+deathCard = {'image' : deathImg,
+             'knowledge' : 5,
+             'hope' : 10,
+             'enthusiasm' : 15,
+             'keyword' : 'death',
+             'relationships' : 0}
+
+queenOfCoinsCard = {'image' : queenCoinsImg,
+             'knowledge' : 5,
+             'hope' : 10,
+             'enthusiasm' : 15,
+             'keyword' : 'queen of coins'}
+
+foolCard = {'image' : foolImg,
+             'knowledge' : 5,
+             'hope' : 10,
+             'enthusiasm' : 15,
+             'keyword' : 'fool',
+             'relationships' : 0}
+
+magicianCard = {'image' : magicianImg,
+             'knowledge' : 5,
+             'hope' : 10,
+             'enthusiasm' : 15,
+             'keyword' : 'magician'}
+
+hermitCard = {'image' : hermitImg,
+             'knowledge' : 5,
+             'hope' : 10,
+             'enthusiasm' : 15,
+             'keyword' : 'hermit'}
+
+towerCard = {'image' : towerImg,
+             'knowledge' : 5,
+             'hope' : 10,
+             'enthusiasm' : 15,
+             'keyword' : 'tower'}
+
+allCardsToCopy = [queenOfCoinsCard, empressCard, deathCard, foolCard, magicianCard, hermitCard, towerCard]
+
+
+twoCoinsCard = {'image' : twoCoinsImg,
+             'knowledge' : 5,
+             'hope' : 10,
+             'enthusiasm' : 15,
+             'keyword' : 'tower',
+             'flavorText' : 'fiscal duality, change'}
+
+allCardsToCopy.append(twoCoinsCard)
+
+twoCupsCard = {'image' : twoCupsImg,
+             'knowledge' : 5,
+             'hope' : 10,
+             'enthusiasm' : 15,
+             'keyword' : 'tower'}
+
+allCardsToCopy.append(twoCupsCard)
+
+twoSwordsCard = {'image' : twoSwordsImg,
+             'knowledge' : 5,
+             'hope' : 10,
+             'enthusiasm' : 15,
+             'keyword' : 'tower'}
+
+allCardsToCopy.append(twoSwordsCard)
+
+
+threeCoinsCard = {'image' : threeCoinsImg,
+             'knowledge' : 5,
+             'hope' : 10,
+             'enthusiasm' : 15,
+             'keyword' : 'tower'}
+
+allCardsToCopy.append(threeCoinsCard)
+
+#coins cups staves swords
+
+threeCupsCard = {'image' : threeCoinsImg,
+             'knowledge' : 5,
+             'hope' : 10,
+             'enthusiasm' : 15,
+             'keyword' : 'tower'}
+
+allCardsToCopy.append(threeCupsCard)
+
+
+threeStavesCard = {'image' : threeStavesImg,
+             'knowledge' : 5,
+             'hope' : 10,
+             'enthusiasm' : 15,
+             'keyword' : 'tower'}
+
+allCardsToCopy.append(threeStavesCard)
+
+threeSwordsCard = {'image' : threeSwordsImg,
+             'knowledge' : 5,
+             'hope' : 10,
+             'enthusiasm' : 15,
+             'keyword' : 'tower'}
+
+allCardsToCopy.append(threeSwordsCard)
+
+
+fourCoinsCard = {'image' : fourCoinsImg,
+             'knowledge' : 5,
+             'hope' : 10,
+             'enthusiasm' : 15,
+             'keyword' : 'tower'}
+
+allCardsToCopy.append(fourCoinsCard)
+
+fourCupsCard = {'image' : fourCupsImg,
+             'knowledge' : 5,
+             'hope' : 10,
+             'enthusiasm' : 15,
+             'keyword' : 'tower'}
+
+allCardsToCopy.append(fourCupsCard)
+
+fourStavesCard = {'image' : fourStavesImg,
+             'knowledge' : 5,
+             'hope' : 10,
+             'enthusiasm' : 15,
+             'keyword' : 'tower'}
+
+allCardsToCopy.append(fourStavesCard)
+
+fourSwordsCard = {'image' : fourSwordsImg,
+             'knowledge' : 5,
+             'hope' : 10,
+             'enthusiasm' : 15,
+             'keyword' : 'tower'}
+
+allCardsToCopy.append(fourSwordsCard)
+
+fiveCoinsCard = {'image' : fiveCoinsImg,
+             'knowledge' : 5,
+             'hope' : 10,
+             'enthusiasm' : 15,
+             'keyword' : 'tower'}
+
+allCardsToCopy.append(fiveCoinsCard)
+
+
+fiveCupsCard = {'image' : fiveCupsImg,
+             'knowledge' : 5,
+             'hope' : 10,
+             'enthusiasm' : 15,
+             'keyword' : 'tower'}
+
+allCardsToCopy.append(fiveCupsCard)
+
+
+fiveStavesCard = {'image' : fiveStavesImg,
+             'knowledge' : 5,
+             'hope' : 10,
+             'enthusiasm' : 15,
+             'keyword' : 'tower'}
+
+allCardsToCopy.append(fiveStavesCard)
+
+fiveSwordsCard = {'image' : fiveSwordsImg,
+             'knowledge' : 5,
+             'hope' : 10,
+             'enthusiasm' : 15,
+             'keyword' : 'tower'}
+
+allCardsToCopy.append(fiveSwordsCard)
